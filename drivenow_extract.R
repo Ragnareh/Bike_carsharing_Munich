@@ -10,8 +10,52 @@ setwd("d:/Projects/Carsharing/datasets/drivenow-muc")
   
   available_vehicles_df <- json_data$cars$items
   parking_vehicles_df <- as.data.frame(json_data$parkingSpaces$items$cars$items)
-  full_df <- rbind(available_vehicles_df, parking_vehicles_df)
 
+  str(available_vehicles_df)
+  available_vehicles_df$address
+  #paste(available_vehicles_df$address,collapse=', ')
+  available_vehicles_df$estimatedRange
+  available_vehicles_df$fuelLevel
+  available_vehicles_df$group
+  available_vehicles_df$id
+  available_vehicles_df$name
+  available_vehicles_df$licensePlate
+  available_vehicles_df$isCharging
+  available_vehicles_df$isInParkingSpace
+  available_vehicles_df$latitude
+  available_vehicles_df$longitude
+  available_vehicles_df$modelName
+  available_vehicles_df$rentalPrice$drivePrice$amount
+  available_vehicles_df$rentalPrice$drivePrice$currencyUnit
+  available_vehicles_df$rentalPrice$parkPrice$amount
+  available_vehicles_df$rentalPrice$parkPrice$currencyUnit
+  available_vehicles_df$rentalPrice$paidReservationPrice$amount
+  available_vehicles_df$rentalPrice$paidReservationPrice$currencyUnit
+  available_vehicles_df$transmission
+  
+  
+  str(parking_vehicles_df)
+  parking_vehicles_df$address
+  #paste(available_vehicles_df$address,collapse=', ')
+  parking_vehicles_df$estimatedRange
+  parking_vehicles_df$fuelLevel
+  parking_vehicles_df$group
+  parking_vehicles_df$id
+  parking_vehicles_df$name
+  parking_vehicles_df$licensePlate
+  parking_vehicles_df$isCharging
+  parking_vehicles_df$isInParkingSpace
+  parking_vehicles_df$latitude
+  parking_vehicles_df$longitude
+  parking_vehicles_df$modelName
+  parking_vehicles_df$rentalPrice$drivePrice$amount
+  parking_vehicles_df$rentalPrice$drivePrice$currencyUnit
+  parking_vehicles_df$rentalPrice$parkPrice$amount
+  parking_vehicles_df$rentalPrice$parkPrice$currencyUnit
+  parking_vehicles_df$rentalPrice$paidReservationPrice$amount
+  parking_vehicles_df$rentalPrice$paidReservationPrice$currencyUnit
+  parking_vehicles_df$transmission
+  
   if (length(available_vehicles_df) > 0) {
     vehicles_df <- data.frame(
       filename = substr(filename, 14, 32),
