@@ -2,7 +2,7 @@ Sys.setlocale("LC_CTYPE", "German")
 
 require(jsonlite)
 
-setwd("c:/Projects/Carsharing/datasets/car2go-muc")
+setwd("d:/Projects/Carsharing/datasets/car2go-muc")
 
 files <- list.files(pattern = ".json")
 
@@ -115,15 +115,44 @@ for (ii in 1:carGroupCount) {
     end_fuel = c(car_data$fuelLevel[-1], NA)
   )
   
-  car_interval$rent_time_min <- difftime(car_interval$end_datetime, car_interval$start_datetime,units="mins")  
-  car_interval$rent_fuel_loss <- round(car_interval$start_fuel - car_interval$end_fuel, digits = 2)
-  
   #all_car_interval <- rbind(all_car_interval, car_interval)  
   write.table(car_interval, "all_car_interval.csv", col.names=FALSE, row.names = FALSE, sep=",",append = TRUE)
   
-  rent_interval <- car_interval[car_interval$rent_time_min > 5, ]
-  all_rent_interval <- rbind(all_rent_interval, rent_interval) 
 }
 
-all_rent_interval <- na.omit(all_rent_interval)
+#write.table(all_rent_interval, "all_rent_interval.csv", col.names=TRUE, row.names = FALSE, sep=",")
+
+all_car_interval <- read.csv("all_car_interval.csv",header=TRUE,row.names=NULL)
+all_car_interval$end_datetime <- as.POSIXct(all_car_interval$end_datetime)
+all_car_interval$start_datetime <- as.POSIXct(all_car_interval$start_datetime)
+all_car_interval$rent_time_min <- as.numeric(difftime(all_car_interval$end_datetime, all_car_interval$start_datetime,units="mins"))
+all_car_interval$rent_fuel_loss <- round(all_car_interval$start_fuel - all_car_interval$end_fuel, digits = 2)
+write.table(all_car_interval, "all_car_interval.csv", col.names=TRUE, row.names = FALSE, sep=",")
+
+all_rent_interval <- na.omit(
+  all_car_interval[all_car_interval$rent_time_min > 5, ])
+
+all_rent_interval$rent_amount <- all_rent_interval$rent_time_min * 0.3
 write.table(all_rent_interval, "all_rent_interval.csv", col.names=TRUE, row.names = FALSE, sep=",")
+
+all_rent_interval <- read.csv("all_rent_interval.csv",header=TRUE,row.names=NULL)
+all_rent_interval$end_datetime <- as.POSIXct(all_rent_interval$end_datetime)
+all_rent_interval$start_datetime <- as.POSIXct(all_rent_interval$start_datetime)
+
+all_rent_interval2 <- na.omit(
+  all_rent_interval[all_rent_interval$rent_time_min > 10 & 
+                      all_rent_interval$rent_time_min < 7200 &
+                      all_rent_interval$rent_fuel_loss != 0 , ])
+
+all_rent_interval2$rent_amount <- all_rent_interval2$rent_time_min * 0.3
+
+hist(all_car_interval2$rent_time_min)
+
+
+
+sum(all_rent_interval2$rent_amount)
+
+sum(all_rent_interval2$rent_amount) / carGroupCount #averange sum per car
+
+summary(all_rent_interval2)
+
