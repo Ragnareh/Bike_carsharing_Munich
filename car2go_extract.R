@@ -152,6 +152,7 @@ hist(all_car_interval2$rent_time_min)
 
 sum(all_rent_interval2$rent_amount)
 
+carGroupCount <- length(unique(all_rent_interval2$name))
 sum(all_rent_interval2$rent_amount) / carGroupCount #averange sum per car
 
 summary(all_rent_interval2)
